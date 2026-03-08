@@ -20,8 +20,14 @@ interface Centre {
   gamesTotal: number
 }
 
+interface CentresData {
+  lastUpdated: string | null
+  totalCentres: number
+  centres: Centre[]
+}
+
 export default function Home() {
-  const [centres, setCentres] = useState<Centre[]>([])
+  const [data, setData] = useState<CentresData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
@@ -35,8 +41,8 @@ export default function Home() {
           throw new Error('Failed to fetch data')
         }
 
-        const data = await response.json()
-        setCentres(data.centres)
+        const result = await response.json()
+        setData(result)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred')
       } finally {
@@ -47,12 +53,25 @@ export default function Home() {
     fetchCentres()
   }, [])
 
-  const filteredCentres = centres.filter(centre =>
+  const filteredCentres = data?.centres.filter(centre =>
     centre.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  ) || []
 
   const formatNumber = (num: number) => {
     return num.toLocaleString()
+  }
+
+  const formatDateTime = (isoString: string | null) => {
+    if (!isoString) return 'Never'
+    const date = new Date(isoString)
+    return date.toLocaleString(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZoneName: 'short'
+    })
   }
 
   return (
@@ -62,7 +81,12 @@ export default function Home() {
           <CardHeader>
             <CardTitle>All Centres</CardTitle>
             <CardDescription>
-              List of all Laserforce centres worldwide ({centres.length} total)
+              List of all Laserforce centres worldwide ({data?.totalCentres || 0} total)
+              {data?.lastUpdated && (
+                <span className="block mt-1 text-sm">
+                  Last updated: {formatDateTime(data.lastUpdated)}
+                </span>
+              )}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -95,15 +119,17 @@ export default function Home() {
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead className="w-16">Rank</TableHead>
                       <TableHead className="w-20">ID</TableHead>
                       <TableHead>Centre Name</TableHead>
                       <TableHead className="w-32 text-right">Games Total</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredCentres.map((centre) => (
+                    {filteredCentres.map((centre, index) => (
                       <TableRow key={centre.id}>
-                        <TableCell className="font-medium">{centre.id}</TableCell>
+                        <TableCell className="font-medium">{index + 1}</TableCell>
+                        <TableCell>{centre.id}</TableCell>
                         <TableCell>{centre.name}</TableCell>
                         <TableCell className="text-right font-medium">
                           {formatNumber(centre.gamesTotal)}
@@ -112,7 +138,7 @@ export default function Home() {
                     ))}
                     {filteredCentres.length === 0 && (
                       <TableRow>
-                        <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
                           No centres found
                         </TableCell>
                       </TableRow>
