@@ -49,3 +49,8 @@ prompt
 server.log
 # Skills directory
 /skills/
+# Temporary research files
+iframe_content.json
+laserforce_docs.json
+laserforce_page.json
+site_docs.json

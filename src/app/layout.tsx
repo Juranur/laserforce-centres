@@ -14,24 +14,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Z.ai Code Scaffold - AI-Powered Development",
-  description: "Modern Next.js scaffold optimized for AI-powered development with Z.ai. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
-  keywords: ["Z.ai", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
-  authors: [{ name: "Z.ai Team" }],
+  title: "Laserforce Mission Stats - Global Player Rankings",
+  description: "View global player rankings from Laserforce laser tag centers worldwide. Track mission stats, games played, and compete globally.",
+  keywords: ["Laserforce", "Laser Tag", "Mission Stats", "Player Rankings", "Global Scoring", "iPlayLaserforce"],
+  authors: [{ name: "Laserforce Stats Viewer" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "https://www.iplaylaserforce.com/favicon.ico",
   },
   openGraph: {
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
-    url: "https://chat.z.ai",
-    siteName: "Z.ai",
+    title: "Laserforce Mission Stats",
+    description: "Global player rankings from Laserforce laser tag centers worldwide",
+    url: "https://www.iplaylaserforce.com/mission-stats/",
+    siteName: "Laserforce Mission Stats",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
+    title: "Laserforce Mission Stats",
+    description: "Global player rankings from Laserforce laser tag centers worldwide",
   },
 };
 
