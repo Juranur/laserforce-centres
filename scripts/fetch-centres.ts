@@ -87,13 +87,13 @@ async function main() {
   // Process each centre
   for (let i = 0; i < centreList.length; i++) {
     const c = centreList[i];
-    
+
     if (i > 0) {
       await delay(200);
     }
 
     const gamesTotal = await fetchCentreGames(c.centreId);
-    
+
     centres.push({
       id: c.centreId,
       regionSite: c.regionSite,
@@ -117,8 +117,9 @@ async function main() {
     centres: centres,
   };
 
-  await Bun.write('data/centres.json', JSON.stringify(outputData, null, 2));
-  
+  const fs = await import('fs/promises');
+  await fs.writeFile('data/centres.json', JSON.stringify(outputData, null, 2));
+
   console.log(`\nDone! Saved ${centres.length} centres to data/centres.json`);
 }
 
